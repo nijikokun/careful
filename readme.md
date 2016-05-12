@@ -1,14 +1,10 @@
 # careful
 
-[![travis build](https://img.shields.io/travis/nijikokun/validate-commit-msg.svg?style=flat-square)](https://travis-ci.org/nijikokun/careful)
-[![codecov coverage](https://img.shields.io/codecov/c/github/nijikokun/careful.svg?style=flat-square)](https://codecov.io/github/nijikokun/careful)
 [![version](https://img.shields.io/npm/v/careful.svg?style=flat-square)](http://npm.im/careful)
 [![downloads](https://img.shields.io/npm/dm/careful.svg?style=flat-square)](http://npm-stat.com/charts.html?package=careful)
 [![MIT License](https://img.shields.io/npm/l/careful.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 
 Provides a binary that can be used as a `git-hook` to validate branch names according to `git-flow` prior to pushing upstream. 
-
-Use [ghooks](http://npm.im/ghooks) to setup your `pre-push` hook easily.
 
 ```sh
 $ (features/banned-regex-support) careful
@@ -23,6 +19,14 @@ CAREFUL! Instead of "features/banned-regex-support" try "feature/banned-regex-su
 - Prevent pushes to certain branches such as `master` or `staging`.
 - Completely customizable, from prefix seperator to the error messages themselves.
 - Give suggestions when prefixes don't exist.
+
+## Installation
+
+```sh
+$ npm install careful --save-dev
+```
+
+- Use [ghooks](http://npm.im/ghooks) to setup `pre-push` and `pre-commit` git hooks. Requires `git 1.8.2+`
 
 ## Usage
 
