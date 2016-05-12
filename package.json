@@ -1,10 +1,10 @@
 {
   "name": "careful",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Validate git branch names according to git-flow",
   "main": "index.js",
   "bin": {
-    "careful": "cli"
+    "careful": "bin/careful"
   },
   "scripts": {
     "test": "node index.test.js"

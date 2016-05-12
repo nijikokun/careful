@@ -88,11 +88,7 @@ function getCurrentBranch () {
   return branch.toString().split('\n')[0].replace('refs/heads/', '').toLowerCase()
 }
 
-if (process.argv.join('').indexOf('index.test') < 0) {
-  process.exit(doValidation(getCurrentBranch()))
-} else {
-  module.exports = {
-    currentBranch: getCurrentBranch(),
-    validateBranchName: doValidation
-  }
+module.exports = {
+  currentBranch: getCurrentBranch(),
+  validateBranchName: doValidation
 }
