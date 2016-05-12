@@ -1,0 +1,48 @@
+{
+  "name": "careful",
+  "version": "1.0.0",
+  "description": "Validate git branch names according to git-flow",
+  "main": "index.js",
+  "bin": {
+    "careful": "index.js"
+  },
+  "scripts": {
+    "test": "node index.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nijikokun/careful.git"
+  },
+  "keywords": [
+    "git",
+    "gitflow",
+    "git-flow",
+    "flow",
+    "enforce",
+    "police",
+    "ghooks",
+    "hooks",
+    "git-hooks",
+    "automate",
+    "restrict",
+    "careful",
+    "github",
+    "push",
+    "pull",
+    "create"
+  ],
+  "author": "Nijiko Yonskai <nijikokun@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "findup": "^0.1.5"
+  },
+  "devDependencies": {
+    "ghooks": "^1.2.1"
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "node ./index.test.js && node ./index.js",
+      "pre-push": "node ./index.test.js && node ./index.js"
+    }
+  }
+}
