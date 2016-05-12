@@ -27,6 +27,7 @@ $ npm install careful --save-dev
 ```
 
 - Use [ghooks](http://npm.im/ghooks) to setup `pre-push` and `pre-commit` git hooks. Requires `git 1.8.2+`
+- Use `-g` to install globally to get `careful` command everywhere.
 
 ## Usage
 

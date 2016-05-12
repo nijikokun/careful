@@ -4,7 +4,7 @@
   "description": "Validate git branch names according to git-flow",
   "main": "index.js",
   "bin": {
-    "careful": "cli"
+    "careful": "bin/careful"
   },
   "scripts": {
     "test": "node index.test.js"

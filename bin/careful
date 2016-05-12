@@ -1,0 +1,5 @@
+#! /usr/bin/env node
+
+var careful = require('../index')
+
+process.exit(careful.validateBranchName(careful.currentBranch))
