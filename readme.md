@@ -6,8 +6,6 @@
 
 Provides a binary that can be used as a `git-hook` to validate branch names according to `git-flow` prior to pushing upstream. 
 
-Use [ghooks](http://npm.im/ghooks) to setup your `pre-push` hook easily.
-
 ```sh
 $ (features/banned-regex-support) careful
 
@@ -21,6 +19,14 @@ CAREFUL! Instead of "features/banned-regex-support" try "feature/banned-regex-su
 - Prevent pushes to certain branches such as `master` or `staging`.
 - Completely customizable, from prefix seperator to the error messages themselves.
 - Give suggestions when prefixes don't exist.
+
+## Installation
+
+```sh
+$ npm install careful --save-dev
+```
+
+- Use [ghooks](http://npm.im/ghooks) to setup `pre-push` and `pre-commit` git hooks. Requires `git 1.8.2+`
 
 ## Usage
 
