@@ -1,7 +1,5 @@
 # careful
 
-[![travis build](https://img.shields.io/travis/nijikokun/validate-commit-msg.svg?style=flat-square)](https://travis-ci.org/nijikokun/careful)
-[![codecov coverage](https://img.shields.io/codecov/c/github/nijikokun/careful.svg?style=flat-square)](https://codecov.io/github/nijikokun/careful)
 [![version](https://img.shields.io/npm/v/careful.svg?style=flat-square)](http://npm.im/careful)
 [![downloads](https://img.shields.io/npm/dm/careful.svg?style=flat-square)](http://npm-stat.com/charts.html?package=careful)
 [![MIT License](https://img.shields.io/npm/l/careful.svg?style=flat-square)](http://opensource.org/licenses/MIT)
