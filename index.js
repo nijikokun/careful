@@ -1,9 +1,12 @@
 const fs = require('fs')
+const os = require('os')
 const exec = require('child_process').execSync
 const util = require('util')
 const findup = require('findup')
 const resolve = require('path').resolve
 const config = loadConfiguration()
+
+const IS_WINDOWS = os.platform() === 'win32'
 
 const BRANCH_PREFIXES = config.prefixes || ['feature', 'hotfix', 'release']
 const PREFIX_SUGGESTIONS = config.suggestions || {'features': 'feature', 'feat': 'feature', 'fix': 'hotfix', 'releases': 'release'}
@@ -79,7 +82,13 @@ function doValidation (branch) {
 }
 
 function getCurrentBranch () {
-  var branch = exec('git symbolic-ref HEAD 2> /dev/null || git rev-parse --short HEAD 2> /dev/null')
+  var branch
+
+  if (IS_WINDOWS) {
+    branch = exec('git symbolic-ref HEAD 2> NUL || git rev-parse --short HEAD 2> NUL')
+  } else {
+    branch = exec('git symbolic-ref HEAD 2> /dev/null || git rev-parse --short HEAD 2> /dev/null')
+  }
 
   if (!branch) {
     throw new Error('Unable to determine branch name using git command.')
