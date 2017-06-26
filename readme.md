@@ -4,7 +4,7 @@
 [![downloads](https://img.shields.io/npm/dm/careful.svg?style=flat-square)](http://npm-stat.com/charts.html?package=careful)
 [![MIT License](https://img.shields.io/npm/l/careful.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 
-Provides a binary that can be used as a `git-hook` to validate branch names according to `git-flow` prior to pushing upstream. 
+Provides a binary that can be used as a `git-hook` to validate branch names according to `git-flow` prior to pushing upstream.
 
 ```sh
 $ (features/banned-regex-support) careful
@@ -33,7 +33,7 @@ $ npm install careful --save-dev
 
 ### Options
 
-Define options in your `package.json` file (values displayed below are the default values):
+You can define options in your `package.json` file (values displayed below are the default values):
 
 ```javascript
 {
@@ -55,7 +55,7 @@ Define options in your `package.json` file (values displayed below are the defau
       // Skip validation check completely for certain branches
       // MUST be full branch name including prefixes
       "skip": [],
-      
+
       // Branches developers are disallowed to push code
       // MUST be full branch name including prefixes
       "disallowed": ["master", "staging", "develop"],
@@ -70,13 +70,15 @@ Define options in your `package.json` file (values displayed below are the defau
 }
 ```
 
+If you choose to put the configuration in external file use --config-file path/to/file.json.
+
 #### skip
 
 Skip all checks for certain branches.
 
 #### prefixes
 
-`git-flow` branch prefixes allowed. 
+`git-flow` branch prefixes allowed.
 
 #### suggestions
 
