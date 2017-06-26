@@ -4,86 +4,96 @@ const exec = require('child_process').execSync
 const util = require('util')
 const findup = require('findup')
 const resolve = require('path').resolve
-const config = loadConfiguration()
 
-const IS_WINDOWS = os.platform() === 'win32'
+function init(filename = 'package.json') {
+  this.config = loadConfiguration(filename)
 
-const BRANCH_PREFIXES = config.prefixes || ['feature', 'hotfix', 'release']
-const PREFIX_SUGGESTIONS = config.suggestions || {'features': 'feature', 'feat': 'feature', 'fix': 'hotfix', 'releases': 'release'}
-const BANNED_BRANCH_NAMES = config.banned || ['wip']
-const BRANCHES_CHECK_SKIP = config.skip || []
-const DISALLOWED_BRANCHES = config.disallowed || ['master', 'develop', 'staging']
-const SEPERATOR = config.seperator || '/'
+  this.BRANCH_PREFIXES = this.config.prefixes || ['feature', 'hotfix', 'release']
+  this.PREFIX_SUGGESTIONS = this.config.suggestions || {'features': 'feature', 'feat': 'feature', 'fix': 'hotfix', 'releases': 'release'}
+  this.BANNED_BRANCH_NAMES = this.config.banned || ['wip']
+  this.BRANCHES_CHECK_SKIP = this.config.skip || []
+  this.DISALLOWED_BRANCHES = this.config.disallowed || ['master', 'develop', 'staging']
+  this.SEPERATOR = this.config.seperator || '/'
 
-const MSG_BRANCH_BANNED = config.msgBranchBanned || 'Branches with the name "%s" are not allowed.'
-const MSG_BRANCH_PUSH_NOT_ALLOWED = config.msgBranchDisallowed || 'Pushing to "%s" is not allowed, use git-flow.'
-const MSG_PREFIX_NOT_ALLOWED = config.msgPrefixNotAllowed || 'Branch prefix "%s" is not allowed.'
-const MSG_PREFIX_SUGGESTION = config.msgPrefixSuggestion || 'Instead of "%s" try "%s".'
-const MSG_SEPERATOR_REQUIRED = config.msgSeperatorRequired || 'Branch "%s" must contain a seperator "%s".'
+  this.MSG_BRANCH_BANNED = this.config.msgBranchBanned || 'Branches with the name "%s" are not allowed.'
+  this.MSG_BRANCH_PUSH_NOT_ALLOWED = this.config.msgBranchDisallowed || 'Pushing to "%s" is not allowed, use git-flow.'
+  this.MSG_PREFIX_NOT_ALLOWED = this.config.msgPrefixNotAllowed || 'Branch prefix "%s" is not allowed.'
+  this.MSG_PREFIX_SUGGESTION = this.config.msgPrefixSuggestion || 'Instead of "%s" try "%s".'
+  this.MSG_SEPERATOR_REQUIRED = this.config.msgSeperatorRequired || 'Branch "%s" must contain a seperator "%s".'
 
-const ERROR_CODE = 1
-const SUCCESS_CODE = 0
+  this.ERROR_CODE = 1
+  this.SUCCESS_CODE = 0
+}
 
-function loadConfiguration () {
-  var pkgFile = findup.sync(process.cwd(), 'package.json')
-  var pkg = JSON.parse(fs.readFileSync(resolve(pkgFile, 'package.json')))
+function loadConfiguration (filename = 'package.json') {
+  var pkgFile = findup.sync(process.cwd(), filename)
+  var pkg = JSON.parse(fs.readFileSync(resolve(pkgFile, filename)))
   return pkg && pkg.config && pkg.config['careful'] || {}
 }
 
 function error () {
   console.error('CAREFUL!', util.format.apply(null, arguments))
-  return ERROR_CODE
+  return this.ERROR_CODE
 }
 
-function doValidation (branch) {
+function doValidation (branch, options = {}) {
   var prefix
   var parts
   var name
 
-  if (BRANCHES_CHECK_SKIP.indexOf(branch) > -1) {
-    return SUCCESS_CODE
+  var defaultOptions = {
+    configFileName: 'package.json',
   }
 
-  if (BANNED_BRANCH_NAMES.indexOf(branch) > -1) {
-    return error(MSG_BRANCH_BANNED, branch)
+  options = Object.assign(defaultOptions, options);
+
+  init.call(this, options.configFileName);
+
+  if (this.BRANCHES_CHECK_SKIP.indexOf(branch) > -1) {
+    return this.SUCCESS_CODE
   }
 
-  if (DISALLOWED_BRANCHES.indexOf(branch) > -1) {
-    return error(MSG_BRANCH_PUSH_NOT_ALLOWED, branch)
+  if (this.BANNED_BRANCH_NAMES.indexOf(branch) > -1) {
+    return error.call(this, this.MSG_BRANCH_BANNED, branch)
   }
 
-  if (branch.indexOf(SEPERATOR) < 0) {
-    return error(MSG_SEPERATOR_REQUIRED, branch)
+  if (this.DISALLOWED_BRANCHES.indexOf(branch) > -1) {
+    return error.call(this, this.MSG_BRANCH_PUSH_NOT_ALLOWED, branch)
+  }
+
+  if (branch.indexOf(this.SEPERATOR) < 0) {
+    return error.call(this, this.MSG_SEPERATOR_REQUIRED, branch)
   } else {
-    parts = branch.split(SEPERATOR)
+    parts = branch.split(this.SEPERATOR)
     prefix = parts[0].toLowerCase()
     name = parts[1].toLowerCase()
   }
 
-  if (BANNED_BRANCH_NAMES.indexOf(name) > -1) {
-    return error(MSG_BRANCH_BANNED, name)
+  if (this.BANNED_BRANCH_NAMES.indexOf(name) > -1) {
+    return error.call(this, this.MSG_BRANCH_BANNED, name)
   }
 
-  if (BRANCH_PREFIXES.indexOf(prefix) < 0) {
-    error(MSG_PREFIX_NOT_ALLOWED, prefix)
+  if (this.BRANCH_PREFIXES.indexOf(prefix) < 0) {
+    error.call(this, this.MSG_PREFIX_NOT_ALLOWED, prefix)
 
-    if (PREFIX_SUGGESTIONS[prefix]) {
-      error(
-        MSG_PREFIX_SUGGESTION,
-        [prefix, name].join(SEPERATOR),
-        [PREFIX_SUGGESTIONS[prefix], name].join(SEPERATOR)
+    if (this.PREFIX_SUGGESTIONS[prefix]) {
+      error.call(
+        this,
+        this.MSG_PREFIX_SUGGESTION,
+        [prefix, name].join(this.SEPERATOR),
+        [this.PREFIX_SUGGESTIONS[prefix], name].join(this.SEPERATOR)
       )
     }
 
-    return ERROR_CODE
+    return this.ERROR_CODE
   }
 
-  return SUCCESS_CODE
+  return this.SUCCESS_CODE
 }
 
 function getCurrentBranch () {
   var branch
-
+  var IS_WINDOWS = os.platform() === 'win32'
   if (IS_WINDOWS) {
     branch = exec('git symbolic-ref HEAD 2> NUL || git rev-parse --short HEAD 2> NUL')
   } else {

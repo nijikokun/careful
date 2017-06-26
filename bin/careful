@@ -1,5 +1,15 @@
 #! /usr/bin/env node
 
 var careful = require('../index')
+var options = {}
 
-process.exit(careful.validateBranchName(careful.currentBranch))
+const isConfigFileNameFlag = process.argv.findIndex((element) => {
+  return element === '--config-file';
+});
+
+if (isConfigFileNameFlag !== -1 && process.argv[isConfigFileNameFlag + 1]) {
+  const configFileName = process.argv[isConfigFileNameFlag + 1];
+  options.configFileName = configFileName;
+}
+
+process.exit(careful.validateBranchName(careful.currentBranch, options))
