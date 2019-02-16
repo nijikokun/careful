@@ -37,7 +37,12 @@
     "findup": "^0.1.5"
   },
   "devDependencies": {
-    "ghooks": "^1.2.1"
+    "eslint": "5.3.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-config-prettier": "4.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "3.0.1",
+    "ghooks": "2.0.4"
   },
   "config": {
     "ghooks": {
