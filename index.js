@@ -53,7 +53,7 @@ function doValidation (branch) {
   }
 
   if (branch.indexOf(SEPERATOR) < 0) {
-    return error(MSG_SEPERATOR_REQUIRED, branch)
+    return error(MSG_SEPERATOR_REQUIRED, branch, SEPERATOR)
   } else {
     parts = branch.split(SEPERATOR)
     prefix = parts[0].toLowerCase()
